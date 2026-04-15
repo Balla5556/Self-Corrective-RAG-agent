@@ -1,1 +1,1 @@
-# Self-Corrective-RAG-Agent.
+# Self-Corrective-RAG-agent
