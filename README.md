@@ -1,27 +1,19 @@
-# Self-Corrective RAG Agent
+# AI Project: Self-Corrective RAG Agent
 
-This project is a local-first demonstration of a self-corrective Retrieval-Augmented Generation workflow built with `LangGraph`.
+This repository now contains one focused AI project only: a local self-corrective RAG agent built with `LangGraph`.
 
-Instead of using a single linear pipeline, the agent:
+## What It Does
 
-1. Retrieves candidate documents from a small knowledge base.
-2. Grades whether the retrieved evidence is relevant.
-3. Rewrites the query when the first search is weak.
-4. Generates a grounded answer or stops with a fallback message.
+The agent takes a question and moves through an AI workflow:
 
-## Project highlights
+1. Retrieve matching knowledge from a small local knowledge base.
+2. Grade whether the retrieved documents are relevant.
+3. Rewrite the query if the first retrieval is weak.
+4. Generate a grounded answer or return a fallback response.
 
-- Stateful orchestration with `LangGraph`
-- Retrieval, grading, rewrite, and generation nodes
-- Local knowledge base with no external API dependency
-- Graceful fallback for unsupported questions
-- Small `unittest` suite for direct-hit, rewrite, and fallback behavior
+## Main File
 
-## Files
-
-- `agent_system.py` - main LangGraph workflow and CLI entry point
-- `tests/test_agent_system.py` - automated tests
-- `requirements.txt` - Python dependencies
+- `agent_system.py` - the full AI workflow and command-line entry point
 
 ## Setup
 
@@ -31,46 +23,19 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Run the agent
-
-Default demo:
+## Run
 
 ```bash
 python3 agent_system.py
 ```
 
-Ask a custom question:
-
-```bash
-python3 agent_system.py "Why does it rewrite the question?"
-```
-
-## Run tests
-
-```bash
-python3 -m unittest discover -s tests -v
-```
-
-## Example behavior
-
-Direct retrieval:
+Custom question:
 
 ```bash
 python3 agent_system.py "What is Agentic RAG?"
 ```
 
-Rewrite path:
+## Notes
 
-```bash
-python3 agent_system.py "Why does it rewrite the question?"
-```
-
-Fallback path:
-
-```bash
-python3 agent_system.py "What are transformer attention heads?"
-```
-
-## GitHub note
-
-The repository should not track `.venv` or `.DS_Store`. A `.gitignore` is included now so the repo stays clean and pushes more reliably.
+- This is a local AI demo project with no external API key required.
+- The repository is intentionally kept minimal so it stays as one AI project only.
