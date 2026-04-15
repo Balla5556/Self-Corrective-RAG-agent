@@ -1,38 +1,76 @@
-# Agentic-RAG: Self-Corrective LLM Orchestration 🤖
+# Self-Corrective RAG Agent
 
-This repository implements a **Self-Corrective Retrieval-Augmented Generation (CRAG)** system using a state-graph architecture. Unlike standard linear RAG pipelines, this agent employs a "Reasoning Loop" to evaluate the quality of retrieved information before generating a response.
+This project is a local-first demonstration of a self-corrective Retrieval-Augmented Generation workflow built with `LangGraph`.
 
-## 🌟 Why this is Top 1% Engineering
-Standard RAG systems often suffer from "hallucinations" when the retriever returns irrelevant data. This project solves that by implementing:
-* **Stateful Orchestration:** Using `LangGraph` to manage complex agentic transitions.
-* **Self-Grading Logic:** A dedicated node that acts as a "critic" to verify document relevance.
-* **Recursive Feedback Loops:** If the data is insufficient, the agent triggers a query-rewrite cycle to attempt a better retrieval.
+Instead of using a single linear pipeline, the agent:
 
----
+1. Retrieves candidate documents from a small knowledge base.
+2. Grades whether the retrieved evidence is relevant.
+3. Rewrites the query when the first search is weak.
+4. Generates a grounded answer or stops with a fallback message.
 
-## 🏗️ Architecture Overview
+## Project highlights
 
-The system operates as a **State Machine**:
+- Stateful orchestration with `LangGraph`
+- Retrieval, grading, rewrite, and generation nodes
+- Local knowledge base with no external API dependency
+- Graceful fallback for unsupported questions
+- Small `unittest` suite for direct-hit, rewrite, and fallback behavior
 
-1.  **Retrieve:** Fetches context from a knowledge base (simulated/local).
-2.  **Grade:** An LLM-based grader evaluates the `(Question, Document)` pair.
-3.  **Decide:** * If **Relevant** ✅ → Move to **Generation**.
-    * If **Irrelevant** ❌ → Move to **Query Transformation** (Rewrite) and re-retrieve.
-4.  **Generate:** Synthesizes the final response using only verified context.
+## Files
 
----
+- `agent_system.py` - main LangGraph workflow and CLI entry point
+- `tests/test_agent_system.py` - automated tests
+- `requirements.txt` - Python dependencies
 
-## 🚀 Technical Stack
-* **Framework:** `LangGraph` (for the Agentic State Machine)
-* **Logic:** Python 3.11+
-* **Design Pattern:** Corrective RAG (CRAG)
-* **Environment:** local-first configuration
+## Setup
 
----
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
 
-## 🛠️ How to Run
+## Run the agent
 
-1. **Clone the repo:**
-   ```bash
-   git clone [https://github.com/Balla5556/Self-Corrective-RAG-agent.git](https://github.com/Balla5556/Self-Corrective-RAG-agent.git)
-   cd Self-Corrective-RAG-agent
+Default demo:
+
+```bash
+python3 agent_system.py
+```
+
+Ask a custom question:
+
+```bash
+python3 agent_system.py "Why does it rewrite the question?"
+```
+
+## Run tests
+
+```bash
+python3 -m unittest discover -s tests -v
+```
+
+## Example behavior
+
+Direct retrieval:
+
+```bash
+python3 agent_system.py "What is Agentic RAG?"
+```
+
+Rewrite path:
+
+```bash
+python3 agent_system.py "Why does it rewrite the question?"
+```
+
+Fallback path:
+
+```bash
+python3 agent_system.py "What are transformer attention heads?"
+```
+
+## GitHub note
+
+The repository should not track `.venv` or `.DS_Store`. A `.gitignore` is included now so the repo stays clean and pushes more reliably.

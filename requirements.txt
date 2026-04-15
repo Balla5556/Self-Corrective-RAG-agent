@@ -1,2 +1,2 @@
-langchain-core
-langgraph
+langchain-core>=0.3,<1.0
+langgraph>=0.2,<1.0
